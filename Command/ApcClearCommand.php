@@ -50,9 +50,15 @@ class ApcClearCommand extends ContainerAwareCommand
             '%opcode%' => var_export($clearOpcode, true)
         ));
 
-        if (false === @file_put_contents($file, $code)) {
-            throw new \RuntimeException(sprintf('Unable to write "%s"', $file));
+        //expects to find the file hardcoded at the location above
+        //if (false === @file_put_contents($file, $code)) {
+        //    throw new \RuntimeException(sprintf('Unable to write "%s"', $file));
+        //}
+        
+        if (false === @file_get_contents($file)) {
+            throw new \RuntimeException(sprintf('Unable to find "%s"', $file));
         }
+
 
         $url = $this->getContainer()->getParameter('ornicar_apc.host').'/'.$filename;
 
