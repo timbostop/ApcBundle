@@ -40,7 +40,7 @@ class ApcClearCommand extends ContainerAwareCommand
         if (!is_writable($webDir)) {
             throw new \InvalidArgumentException(sprintf('Web dir is not writable "%s"', $webDir));
         }
-        $filename = md5(uniqid().mt_rand(0, 9999999).php_uname()).'.php';
+        $filename = 'apc22253278b41cfdbdd49c824c0f3e6d67.php';
         $file = $webDir.'/'.$filename;
 
         $templateFile = __DIR__.'/../Resources/template.tpl';
@@ -61,11 +61,11 @@ class ApcClearCommand extends ContainerAwareCommand
                 $result = file_get_contents($url);
 
                 if (!$result) {
-                    unlink($file);
+                    //unlink($file);
                     throw new \RuntimeException(sprintf('Unable to read "%s", does the host locally resolve?', $url));
                 }
             } catch (\ErrorException $e) {
-                unlink($file);
+                //unlink($file);
                 throw new \RuntimeException(sprintf('Unable to read "%s", does the host locally resolve?', $url));
             }
         }
@@ -82,14 +82,14 @@ class ApcClearCommand extends ContainerAwareCommand
             if (curl_errno($ch)) {
                 $error = curl_error($ch);
                 curl_close($ch);
-                unlink($file);
+                //unlink($file);
                 throw new \RuntimeException(sprintf('Curl error reading "%s": %s', $url, $error));
             }
             curl_close($ch);
         }
 
         $result = json_decode($result, true);
-        unlink($file);
+        //unlink($file);
 
         if($result['success']) {
             $output->writeLn($result['message']);
